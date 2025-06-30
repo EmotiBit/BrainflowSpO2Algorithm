@@ -1,0 +1,4 @@
+.vscode
+venv
+src/build
+src/data
