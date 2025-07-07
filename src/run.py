@@ -69,12 +69,12 @@ def main():
   print(f"Found UN file: {un_file}")
 
   ppg_red = read_column_from_csv(pr_file, 7)
-  ppg_red_ts = read_column_from_csv(pr_file, 1)
+  ppg_red_ts = read_column_from_csv(pr_file, 0)
   ppg_ir = read_column_from_csv(pi_file, 7)
-  ppg_ir_ts = read_column_from_csv(pi_file, 1)
+  ppg_ir_ts = read_column_from_csv(pi_file, 0)
 
   un = read_column_from_csv(un_file, 7)
-  un_ts = read_column_from_csv(un_file, 1)
+  un_ts = read_column_from_csv(un_file, 0)
 
   # Split ppg_red and ppg_ir into chunks
   ppg_red_chunks = split_into_chunks(ppg_red, chunk_size)
@@ -96,7 +96,7 @@ def main():
   output_csv = os.path.join(data_folder, 'generated.csv')
   with open(output_csv, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(['Timestamp', 'O2_Level'])
+    writer.writerow(['Timestamp', 'O2'])
     for ts, o2 in zip(o2_ts, o2_levels):
       writer.writerow([ts, o2])
   print(f"O2 levels and timestamps saved to {output_csv}")
