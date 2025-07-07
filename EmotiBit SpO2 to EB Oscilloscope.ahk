@@ -1,43 +1,78 @@
 ﻿; Configurable parameters
-defaultTensDigit := 9      ; Default tens digit of SpO2 level
-repeatCount := 10           ; Number of times to repeat the loop
+currentOnesDigit := 0      ; Current ones digit of SpO2 level
 firstClickX := 4500         ; X coordinate for the first click
 firstClickY := 430          ; Y coordinate for the first click
 secondClickX := 4420        ; X coordinate for the second click
 secondClickY := 450        ; Y coordinate for the second click
-promptDelay := 2000        ; Delay in milliseconds
+delay := 2000        ; Delay in milliseconds
 
 CoordMode "Mouse", "Screen"  ; Set mouse coordinates to screen reference
 
-repeatInput := InputBox("How many times do you want to repeat the loop?", "Repeat Count", "w200 h120")
-if (repeatInput.Result = "OK" && repeatInput.Value ~= "^\d+$" && repeatInput.Value > 0)
+0::
 {
-  repeatCount := repeatInput.Value
+  Global currentOnesDigit := 0
 }
-else
+
+1::
 {
-  MsgBox "Please enter a valid positive integer.", "Invalid Input", 48
+  Global currentOnesDigit := 1
+}
+
+2::
+{
+  Global currentOnesDigit := 2
+}
+
+3::
+{
+  Global currentOnesDigit := 3
+}
+
+4::
+{
+  Global currentOnesDigit := 4
+}
+
+5::
+{
+  Global currentOnesDigit := 5
+}
+
+6::
+{
+  Global currentOnesDigit := 6
+}
+
+7::
+{
+  Global currentOnesDigit := 7
+}
+
+8::
+{
+  Global currentOnesDigit := 8
+}
+
+9::
+{
+  Global currentOnesDigit := 9
+}
+
+Backspace::
+{
   ExitApp
 }
 
-Loop repeatCount
+MsgBox "Ready to start?"
+
+Loop
 {
   ; Left click at the first location
   Click firstClickX, firstClickY, "Left"
-  Sleep promptDelay
+  Sleep delay
 
-  ; Prompt user for a single digit between 0-9
-  userInput := InputBox("Please enter a single digit (0-9):", "Enter Digit", "w150 h120")
-  if (userInput.Result = "OK" && userInput.Value ~= "^[0-9]$")
-  {
-    SendText defaultTensDigit
-    SendText userInput.Value
-  }
-  else
-  {
-    MsgBox "Please enter a single digit between 0 and 9.", "Invalid Input", 48
-    continue
-  }
+  SendText 9
+  SendText currentOnesDigit
 
   ; Press Enter
   Send "{Enter}"
@@ -45,4 +80,3 @@ Loop repeatCount
   ; Click at the second location
   Click secondClickX, secondClickY, "Left"
 }
-MsgBox "Data collection is finished.", "Done", 64

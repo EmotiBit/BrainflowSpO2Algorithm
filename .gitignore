@@ -2,4 +2,4 @@
 venv
 src/build
 src/data
-tests
+/tests
