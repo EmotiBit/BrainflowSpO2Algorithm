@@ -22,9 +22,9 @@ enum class DetrendOperations : int
     LINEAR = 2
 };
 
-inline double rms (double x[], int n)
+inline float rms (float x[], int n)
 {
-    double sum = 0;
+    float sum = 0;
     for (int i = 0; i < n; i++)
     {
         sum += x[i] * x[i];
@@ -32,9 +32,9 @@ inline double rms (double x[], int n)
     return sqrt (sum / n);
 }
 
-inline double mean (double x[], int n)
+inline float mean (float x[], int n)
 {
-    double sum = 0;
+    float sum = 0;
     for (int i = 0; i < n; i++)
     {
         sum += x[i];
@@ -42,18 +42,18 @@ inline double mean (double x[], int n)
     return sum / n;
 }
 
-inline void reverse_array (double data[], int len)
+inline void reverse_array (float data[], int len)
 {
     for (int i = 0; i < len / 2; i++)
     {
-        double temp = data[i];
+        float temp = data[i];
         data[i] = data[len - i - 1];
         data[len - i - 1] = temp;
     }
 }
 
-void get_oxygen_level (double *ppg_ir, double *ppg_red, int data_size, int sampling_rate, double callib_coef1, double callib_coef2, double callib_coef3, double *oxygen_level);
-void detrend (double *data, int data_len, int detrend_operation);
-void perform_bandpass (double *data, int data_len, int sampling_rate, double start_freq, double stop_freq, int order, int filter_type, double ripple);
+void get_oxygen_level (float *ppg_ir, float *ppg_red, int data_size, int sampling_rate, float callib_coef1, float callib_coef2, float callib_coef3, float *oxygen_level);
+void detrend (float *data, int data_len, int detrend_operation);
+void perform_bandpass (float *data, int data_len, int sampling_rate, float start_freq, float stop_freq, int order, int filter_type, float ripple);
 
 #endif /* SPO2_ALGORITHM_H */

@@ -58,23 +58,10 @@ def main():
     raise FileNotFoundError("No CSV file ending with 'PI.csv' found in the data folder.")
   print(f"Found PI file: {pi_file}")
 
-  # load UN data from data folder
-  un_file = None
-  for fname in os.listdir(data_folder):
-    if fname.endswith('UN.csv'):
-      un_file = os.path.join(data_folder, fname)
-      break
-  if un_file is None:
-    raise FileNotFoundError("No CSV file ending with 'UN.csv' found in the data folder.")
-  print(f"Found UN file: {un_file}")
-
   ppg_red = read_column_from_csv(pr_file, 7)
   ppg_red_ts = read_column_from_csv(pr_file, 0)
   ppg_ir = read_column_from_csv(pi_file, 7)
   ppg_ir_ts = read_column_from_csv(pi_file, 0)
-
-  un = read_column_from_csv(un_file, 7)
-  un_ts = read_column_from_csv(un_file, 0)
 
   # Split ppg_red and ppg_ir into chunks
   ppg_red_chunks = split_into_chunks(ppg_red, chunk_size)
@@ -110,7 +97,6 @@ def main():
   ax1.legend(loc='upper left')
 
   ax2 = ax1.twinx()
-  ax2.plot(un_ts, un, color='tab:green', label='SPO2 from 3rd Party')
   ax2.plot(o2_ts, o2_levels, color='tab:orange', label='SPO2 using Brainflow')
   ax2.set_ylabel('SPO2')
   ax2.legend(loc='upper right')
