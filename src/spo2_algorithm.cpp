@@ -2,7 +2,18 @@
 
 #define MAX_FILTER_ORDER 8
 
-void get_oxygen_level(float *ppg_ir, float *ppg_red, int data_size, int sampling_rate, float callib_coef1, float callib_coef2, float callib_coef3, float *oxygen_level)
+/**
+ * @brief Calculates the oxygen saturation level (SpO2) from PPG IR and RED signals.
+ *
+ * This function processes infrared (IR) and red photoplethysmogram (PPG) signals to estimate
+ * the blood oxygen saturation level using filtering, detrending, and a calibration formula.
+ *
+ * @param ppg_ir         Pointer to the array of IR PPG signal samples.
+ * @param ppg_red        Pointer to the array of RED PPG signal samples.
+ * @param data_size      Number of samples in the PPG signal arrays.
+ * @param oxygen_level   Pointer to a float where the calculated SpO2 value will be stored (0-100).
+ */
+void get_oxygen_level(float *ppg_ir, float *ppg_red, int data_size, float *oxygen_level)
 {
     float *red_raw = new float[data_size];
     float *ir_raw = new float[data_size];
@@ -20,8 +31,8 @@ void get_oxygen_level(float *ppg_ir, float *ppg_red, int data_size, int sampling
     // filtering(full size)
     detrend (red_raw, data_size, (int)DetrendOperations::CONSTANT);
     detrend (ir_raw, data_size, (int)DetrendOperations::CONSTANT);
-    perform_bandpass (red_raw, data_size, sampling_rate, 0.7, 1.5, 4, (int)FilterTypes::BUTTERWORTH, 0.0);
-    perform_bandpass (ir_raw, data_size, sampling_rate, 0.7, 1.5, 4, (int)FilterTypes::BUTTERWORTH, 0.0);
+    perform_bandpass (red_raw, data_size, FILTER_SAMPLING_RATE, 0.7, 1.5, 4, (int)FilterTypes::BUTTERWORTH, 0.0);
+    perform_bandpass (ir_raw, data_size, FILTER_SAMPLING_RATE, 0.7, 1.5, 4, (int)FilterTypes::BUTTERWORTH, 0.0);
 
     // calculate AC & DC components using mean & rms:
     float redac = rms (new_red_raw, new_size);
@@ -31,7 +42,7 @@ void get_oxygen_level(float *ppg_ir, float *ppg_red, int data_size, int sampling
 
     // https://www.maximintegrated.com/en/design/technical-documents/app-notes/6/6845.html
     float r = (redac / reddc) / (irac / irdc);
-    float spo2 = callib_coef1 * r * r + callib_coef2 * r + callib_coef3;
+    float spo2 = (CALIB_COEFF_1 * r * r) + (CALIB_COEFF_2 * r) + (CALIB_COEFF_3);
     if (spo2 > 100.0)
     {
         spo2 = 100.0;

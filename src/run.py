@@ -26,13 +26,7 @@ def split_into_chunks(data, chunk_size):
 
 def main():
   # define constants
-  chunk_size = 200
-  sampling_rate = 10
-
-  # default calibration coefficients from Table 1 (https://www.analog.com/en/resources/technical-articles/guidelines-for-spo2-measurement--maxim-integrated.html)
-  coeff_1 = 1.5958422 
-  coeff_2 = -34.6596622
-  coeff_3 = 112.6898759
+  chunk_size = 64
 
   parser = argparse.ArgumentParser(description='Run SPO2 algorithm on PPG data.')
   parser.add_argument('data_folder', nargs='?', default=os.path.join(cur_dir, 'data'),
@@ -74,7 +68,7 @@ def main():
   o2_ts = []
   index = 0
   for red_chunk, ir_chunk in zip(ppg_red_chunks, ppg_ir_chunks):
-    o2 = SPO2Algorithm.get_oxygen_level(ir_chunk, red_chunk, sampling_rate, coeff_1, coeff_2, coeff_3)
+    o2 = SPO2Algorithm.get_oxygen_level(ir_chunk, red_chunk)
     o2_levels.append(o2)
     o2_ts.append(ppg_red_ts[index])
     index += chunk_size

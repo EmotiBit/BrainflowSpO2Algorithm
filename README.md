@@ -1,5 +1,5 @@
 # Description
-This algorithm is derived from the Brainflow SpO2 algorithm, and uses PPG-R and PPG-IR data from the EmotiBit to calculate SPO2 level.
+This algorithm is derived from the Brainflow SpO2 algorithm, and uses PPG-R and PPG-IR data from the EmotiBit to calculate SPO2 level. As a starting point, `run.py` splits PPG-R and PPG-IR signals into buffers of length 64, which are then passed to the algorithm. It is recommended for the buffers to contain **at least** 64 samples for accurate results.
 
 # Required Hardware
 - Emotibit
