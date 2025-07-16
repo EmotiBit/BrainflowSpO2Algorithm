@@ -1,5 +1,4 @@
 .vscode
 venv
-src/build
-src/data
-/tests
+build
+tests
