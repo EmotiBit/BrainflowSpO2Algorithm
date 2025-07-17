@@ -1,4 +1,4 @@
-#include "spo2_algorithm.h"
+#include "BrainflowSpO2Algorithm.h"
 
 #define MAX_FILTER_ORDER 8
 
